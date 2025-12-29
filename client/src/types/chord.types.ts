@@ -16,13 +16,19 @@ type ChordQuality =
   | "major"
   | "minor"
   | "diminished"
+  | "augmented"
   | "sus4"
-  | "minor7"
-  | "major7"
   | "6th"
-  | "9th";
+  | "minor7"
+  | "major7";
 
 export type Chord = {
   root: Note;
   quality: ChordQuality;
 };
+
+export type Semitone = number;
+
+export type Interval = number;
+
+export type Octave = number;
