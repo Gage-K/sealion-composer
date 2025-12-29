@@ -58,11 +58,12 @@ src/
 │       └── KeyIndicator.tsx       # Visual feedback for pressed keys
 ├── hooks/
 │   ├── useKeyboard.ts             # Keyboard event handling
-│   ├── useAudioEngine.ts          # Tone.js synth management
+│   ├── useAudioEngine.ts          # React hook that creates/uses AudioEngine instance
 │   └── useChordLogic.ts           # Chord calculation logic
+├── lib/
+│   └── AudioEngine.ts             # Audio engine class (Tone.js synth management)
 ├── utils/
 │   ├── musicTheory.ts             # Chord construction logic
-│   ├── audioEngine.ts             # Tone.js setup and config
 │   └── keyMappings.ts             # Keyboard to note mappings
 ├── types/
 │   └── music.types.ts             # TypeScript types
@@ -73,8 +74,18 @@ src/
 
 1. **Input Layer**: `useKeyboard` hook captures keyboard events
 2. **Logic Layer**: `useChordLogic` determines which chord to play based on active keys
-3. **Audio Layer**: `useAudioEngine` triggers Tone.js to play the appropriate notes
+3. **Audio Layer**: `useAudioEngine` hook creates/manages `AudioEngine` class instance (stored in ref), which handles Tone.js synth and plays notes
 4. **Display Layer**: React components update to show active state
+
+### Audio Engine Architecture
+
+- **`lib/AudioEngine.ts`**: Singleton-style class that manages Tone.js synth lifecycle
+  - Initializes and configures Tone.js instruments
+  - Methods: `playChord(notes)`, `releaseChord()`, `setVolume()`, `setInstrument()`, etc.
+  - Handles cleanup and resource management
+- **`hooks/useAudioEngine.ts`**: React hook that instantiates `AudioEngine` once and stores it in a ref
+  - Returns methods to interact with the audio engine
+  - Ensures single instance across component re-renders
 
 ## Implementation Phases
 
